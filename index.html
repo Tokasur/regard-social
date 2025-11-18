@@ -5,22 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regard Social - Prisme</title>
     <style>
-        body, html {
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
             height: 100%;
+            width: 100%;
             overflow: hidden;
         }
+        
         #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             font-family: Arial, sans-serif;
             color: #333;
             background: #f5f5f5;
+            z-index: 9999;
         }
+        
         .spinner {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #e91e63;
@@ -30,9 +42,24 @@
             animation: spin 1s linear infinite;
             margin-bottom: 15px;
         }
+        
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        
+        #regard-social-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+        }
+        
+        #regard-social-frame.loaded {
+            display: block;
         }
     </style>
 </head>
@@ -42,11 +69,14 @@
         <span>Chargement du Regard Social...</span>
     </div>
 
+    <iframe id="regard-social-frame" name="regard-social-frame" allowfullscreen></iframe>
+
     <script>
         const CONFIG_URL = './config.json';
         
-        async function redirectToLatest() {
+        async function loadRegardSocial() {
             try {
+                console.log('Chargement de config.json...');
                 const response = await fetch(CONFIG_URL);
                 
                 if (!response.ok) {
@@ -54,13 +84,33 @@
                 }
                 
                 const config = await response.json();
+                console.log('Config chargée:', config);
                 
                 if (!config.latest_url) {
                     throw new Error('URL non trouvée dans config.json');
                 }
                 
-                // Redirection immédiate vers l'URL du Regard Social
-                window.location.replace(config.latest_url);
+                const iframe = document.getElementById('regard-social-frame');
+                
+                // Masquer le loading et afficher l'iframe quand elle est chargée
+                iframe.onload = function() {
+                    console.log('Iframe chargée');
+                    document.getElementById('loading').style.display = 'none';
+                    iframe.classList.add('loaded');
+                };
+                
+                // Définir la source de l'iframe
+                iframe.src = config.latest_url;
+                console.log('URL chargée dans iframe:', config.latest_url);
+                
+                // Timeout de sécurité si l'iframe ne charge pas
+                setTimeout(function() {
+                    if (!iframe.classList.contains('loaded')) {
+                        console.log('Timeout - affichage forcé');
+                        document.getElementById('loading').style.display = 'none';
+                        iframe.classList.add('loaded');
+                    }
+                }, 3000);
                 
             } catch (error) {
                 console.error('Erreur:', error);
@@ -68,17 +118,20 @@
                     <div style="text-align: center; padding: 20px;">
                         <h2 style="color: #d32f2f;">⚠️ Erreur</h2>
                         <p>Impossible de charger le Regard Social.</p>
-                        <p style="font-size: 0.9em; color: #666;">${error.message}</p>
+                        <p style="font-size: 0.9em; color: #666; margin-top: 10px;">${error.message}</p>
                         <p style="margin-top: 20px;">
-                            <a href="https://prisme.netboard.me/" style="color: #e91e63;">Accéder directement au site Prisme</a>
+                            <a href="https://prisme.netboard.me/" 
+                               style="color: #e91e63; text-decoration: none; font-weight: bold;">
+                                → Accéder directement au site Prisme
+                            </a>
                         </p>
                     </div>
                 `;
             }
         }
         
-        // Lancer la redirection immédiatement
-        redirectToLatest();
+        // Démarrer le chargement
+        loadRegardSocial();
     </script>
 </body>
 </html>
