@@ -22,16 +22,6 @@ Ce dépôt est mis à jour automatiquement chaque vendredi par un workflow Power
 2. Met à jour le fichier `config.json`
 3. GitHub Pages redéploie automatiquement la page
 
-## 🛠️ Modification manuelle
-
-Pour mettre à jour manuellement l'URL du Regard Social :
-
-1. Éditez `config.json`
-2. Modifiez la valeur de `latest_url`
-3. Commitez les changements
-
-Le changement sera visible en 1-2 minutes.
-
 ## 📊 Utilisation
 
 Cette URL peut être utilisée :
