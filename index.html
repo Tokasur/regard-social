@@ -50,10 +50,10 @@
         
         #regard-social-frame {
             position: absolute;
-            top: 0;
+            top: -70px;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: calc(100% + 70px);
             border: none;
             display: none;
         }
@@ -76,7 +76,6 @@
         
         async function loadRegardSocial() {
             try {
-                console.log('Chargement de config.json...');
                 const response = await fetch(CONFIG_URL);
                 
                 if (!response.ok) {
@@ -84,7 +83,6 @@
                 }
                 
                 const config = await response.json();
-                console.log('Config chargée:', config);
                 
                 if (!config.latest_url) {
                     throw new Error('URL non trouvée dans config.json');
@@ -92,21 +90,15 @@
                 
                 const iframe = document.getElementById('regard-social-frame');
                 
-                // Masquer le loading et afficher l'iframe quand elle est chargée
                 iframe.onload = function() {
-                    console.log('Iframe chargée');
                     document.getElementById('loading').style.display = 'none';
                     iframe.classList.add('loaded');
                 };
                 
-                // Définir la source de l'iframe
                 iframe.src = config.latest_url;
-                console.log('URL chargée dans iframe:', config.latest_url);
                 
-                // Timeout de sécurité si l'iframe ne charge pas
                 setTimeout(function() {
                     if (!iframe.classList.contains('loaded')) {
-                        console.log('Timeout - affichage forcé');
                         document.getElementById('loading').style.display = 'none';
                         iframe.classList.add('loaded');
                     }
@@ -130,7 +122,6 @@
             }
         }
         
-        // Démarrer le chargement
         loadRegardSocial();
     </script>
 </body>
