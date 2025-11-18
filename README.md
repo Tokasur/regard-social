@@ -6,7 +6,7 @@ Ce dépôt héberge une page de redirection automatique vers le dernier Regard S
 
 ## 🔗 URL permanente
 
-**https://github.io/Tokasur/regard-social**
+**https://tokasur.github.io/regard-social/**
 
 Cette URL ne change jamais et affiche toujours le dernier Regard Social publié.
 
