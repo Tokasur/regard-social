@@ -8,7 +8,7 @@ Ce dépôt héberge une page de redirection automatique vers le dernier Regard S
 
 **https://tokasur.github.io/regard-social/**
 
-Cette URL ne change jamais et affiche toujours le dernier Regard Social publié.
+Cette URL ne change jamais et redirige toujours le dernier Regard Social publié.
 
 ## 📁 Fichiers
 
