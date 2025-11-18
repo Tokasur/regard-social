@@ -1,5 +1,7 @@
 # Regard Social - URL Permanente
 
+EN CONSTRUTION NE PAS UTILISER POUR LE MOMENT
+
 Ce dépôt héberge une page de redirection automatique vers le dernier Regard Social publié par Prisme.
 
 ## 🔗 URL permanente
